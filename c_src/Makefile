@@ -27,8 +27,11 @@ else
 endif
 
 UNAME_SYS  := $(shell uname -s)
+UNAME_ARCH := $(shell uname -m)
 ifeq ($(UNAME_SYS),Linux)
-  CXXFLAGS ?= -mavx2
+  ifneq ($(UNAME_ARCH),aarch64)
+    CXXFLAGS ?= -mavx2
+  endif
 else ifeq ($(UNAME_SYS),Darwin)
   CXXFLAGS ?= -pie
   LDFLAGS  += -flat_namespace -undefined suppress
